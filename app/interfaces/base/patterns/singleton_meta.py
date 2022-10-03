@@ -1,7 +1,7 @@
 """
     Base class SingletonMeta
 """
-from typing import Dict, Type
+from typing import Dict
 
 from app.interfaces import abstract
 
