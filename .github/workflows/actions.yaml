@@ -12,7 +12,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install requirements
-        run: apt install -r requirements.pytest.txt
+        run: pip install -r requirements.pytest.txt
       - name: run pytest
         run: pytest
 
@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install requirements
-        run: apt install -r requirements.mypy.txt
+        run: pip install -r requirements.mypy.txt
       - name: run mypy
         run: mypy wsgi.py
 
@@ -40,6 +40,6 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install requirements
-        run: apt install -r requirements.flake8.txt
+        run: pip install -r requirements.flake8.txt
       - name: run flake8
         run: flake8 .
