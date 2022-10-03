@@ -1,0 +1,7 @@
+name: testing, building and deploying
+on: [ push]
+jobs:
+  check_pytest:
+    runs-on: ubuntu-latest
+    steps:
+      -
