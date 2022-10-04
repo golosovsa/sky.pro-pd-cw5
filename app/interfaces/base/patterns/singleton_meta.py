@@ -16,3 +16,8 @@ class SingletonMeta(type, abstract.SingletonMeta):
         instance = super().__call__(*args, **kwargs)
         cls._instances[cls] = instance
         return instance
+
+    # def __new__(mcs, *args, **kwargs):
+    #     if mcs in mcs._instances:
+    #         return mcs._instances[mcs]
+    #     return super().__new__(mcs, *args, **kwargs)

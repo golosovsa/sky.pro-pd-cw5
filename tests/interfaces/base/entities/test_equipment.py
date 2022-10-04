@@ -41,6 +41,7 @@ class TestEquipment:
             assert weapon.max_damage == weapon_data["max_damage"]
             assert weapon.min_damage == weapon_data["min_damage"]
             assert weapon.stamina_per_hit == weapon_data["stamina_per_hit"]
+        assert equipment.get_weapon("not exist") is None
 
     def test_get_armor(self, equipment_data, equipment_file):
         equipment = Equipment(equipment_file)
@@ -51,6 +52,7 @@ class TestEquipment:
             assert armor.id == armor_data["id"]
             assert armor.defence == armor_data["defence"]
             assert armor.stamina_per_turn == armor_data["stamina_per_turn"]
+        assert equipment.get_armor("not exist") is None
 
     def test_get_weapon_names(self, equipment_data, equipment_file):
         names_data = [item["name"] for item in equipment_data["weapons"]]

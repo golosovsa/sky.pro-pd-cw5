@@ -31,11 +31,11 @@ class Skill(ABC):
         pass
 
     @abstractmethod
-    def skill_effect(self) -> str:
+    def skill_effect(self, user: TUnit, target: TUnit) -> str:
         pass
 
     @abstractmethod
-    def _is_stamina_enough(self) -> bool:
+    def _is_stamina_enough(self, user: TUnit) -> bool:
         pass
 
     @abstractmethod

@@ -24,12 +24,22 @@ class Unit(ABC):
 
     @property
     @abstractmethod
+    def name(self):
+        pass
+
+    @property
+    @abstractmethod
     def health_points(self):
         pass
 
     @property
     @abstractmethod
     def stamina_points(self):
+        pass
+
+    @stamina_points.setter
+    @abstractmethod
+    def stamina_points(self, value):
         pass
 
     @abstractmethod
@@ -45,7 +55,7 @@ class Unit(ABC):
         pass
 
     @abstractmethod
-    def get_damage(self, damage: int) -> Optional[int]:
+    def get_damage(self, damage: float) -> Optional[int]:
         pass
 
     @abstractmethod
