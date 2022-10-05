@@ -3,6 +3,9 @@
 """
 
 from abc import ABC
+from typing import TypeVar
+
+TArmor = TypeVar("TArmor", bound="Armor")
 
 
 class Armor(ABC):

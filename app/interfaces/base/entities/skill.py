@@ -49,7 +49,8 @@ class Skill(abstract.Skill):
         return user.stamina_points >= self._stamina
 
     def use(self, user: TUnit, target: TUnit) -> str:
-        if self._is_stamina_enough(user):
-            return self.skill_effect(user, target)
-        return f"{user.name} попытался использовать " \
-               f"{self.name} но у него не хватило выносливости."
+        if not self._is_stamina_enough(user):
+            return f"{user.name} попытался использовать " \
+                   f"{self.name} но у него не хватило выносливости."
+
+        return self.skill_effect(user, target)

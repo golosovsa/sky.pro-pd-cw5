@@ -3,7 +3,7 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from .unit_class import UnitClass
 
@@ -18,8 +18,8 @@ class Unit(ABC):
     _unit_class: UnitClass = NotImplemented
     _hp: float = NotImplemented
     _stamina: float = NotImplemented
-    _weapon: Weapon = NotImplemented
-    _armor: Armor = NotImplemented
+    _weapon: Weapon | None = NotImplemented
+    _armor: Armor | None = NotImplemented
     _is_skill_used: bool = NotImplemented
 
     @property
@@ -34,34 +34,49 @@ class Unit(ABC):
 
     @property
     @abstractmethod
+    def is_alive(self):
+        pass
+
+    @property
+    @abstractmethod
     def stamina_points(self):
         pass
 
     @stamina_points.setter
     @abstractmethod
-    def stamina_points(self, value):
+    def stamina_points(self, value: float):
         pass
 
     @abstractmethod
-    def equip_weapon(self, weapon: Weapon):
+    def equip_weapon(self, weapon):
         pass
 
     @abstractmethod
-    def equip_armor(self, armor: Armor):
+    def equip_armor(self, armor):
+        pass
+
+    @property
+    @abstractmethod
+    def defence(self) -> float:
+        pass
+
+    @property
+    @abstractmethod
+    def damage(self) -> float:
         pass
 
     @abstractmethod
-    def _count_damage(self, target: TUnit) -> int:
+    def _count_damage(self, target: TUnit) -> float:
         pass
 
     @abstractmethod
-    def get_damage(self, damage: float) -> Optional[int]:
+    def get_damage(self, damage: float):
         pass
 
     @abstractmethod
-    def hit(self, target: TUnit) -> str:
+    def hit(self, target: TUnit):
         pass
 
     @abstractmethod
-    def use_skill(self, target: TUnit) -> str:
+    def use_skill(self, target: TUnit):
         pass

@@ -3,6 +3,9 @@
 """
 
 from abc import ABC, abstractmethod
+from typing import TypeVar
+
+TWeapon = TypeVar("TWeapon", bound="Weapon")
 
 
 class Weapon(ABC):
