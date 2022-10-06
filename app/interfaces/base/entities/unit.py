@@ -1,6 +1,7 @@
 """
     Base Unit class implementation
 """
+from typing import Union
 
 from app.interfaces import abstract
 from app.interfaces.abstract.entities.unit import TUnit
@@ -70,6 +71,7 @@ class Unit(abstract.Unit):
     def damage(self) -> float:
         if self._weapon is None:
             self._log(f"{self.name} забыл взять оружие, его атака 0")
+            self.skip_turn(self)
             return 0
 
         if self._stamina < self._weapon.stamina_per_hit:
@@ -106,16 +108,20 @@ class Unit(abstract.Unit):
         self._regenerate_stamina()
         damage = self._count_damage(target)
         target.get_damage(damage)
-        self._log("-" * 30)
 
     def use_skill(self, target: TUnit):
         if self._is_skill_used:
-            self._log(f"{self.name} попытался использовать свой навык, "
+            self._log(f"{self.name} попытался использовать "
+                      f"{self._unit_class.skill.name}, "
                       f"но это можно сделать только один раз за бой, "
                       f"поэтому будет нанесен обычный удар")
             self.hit(target)
             return
         self._regenerate_stamina()
-        message = self._unit_class.skill.use(target, target)
+        user: Union[TUnit, Unit] = self
+        message = self._unit_class.skill.use(user, target)
         self._log(message)
-        self._log("-" * 30)
+
+    def skip_turn(self, target: TUnit):
+        self._regenerate_stamina()
+        self._log(f"{self.name} пропускает ход")

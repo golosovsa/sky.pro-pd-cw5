@@ -13,4 +13,6 @@ else:
 
 
 class Equipment(base.Equipment, metaclass=ABCSingletonEquipmentMeta):
-    pass
+
+    def __init__(self, filename: str):
+        super(Equipment, self).__init__(filename)

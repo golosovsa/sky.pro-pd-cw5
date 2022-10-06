@@ -24,8 +24,3 @@ ThiefClass = UnitClass(
     armor=1.0,
     skill=skills.FuryPunch()
 )
-
-unit_classes = {
-    WarriorClass.name: WarriorClass,
-    ThiefClass.name: ThiefClass,
-}

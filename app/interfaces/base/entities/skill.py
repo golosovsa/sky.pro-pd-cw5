@@ -43,7 +43,8 @@ class Skill(abstract.Skill):
         damage = target.get_damage(self._damage)
         return f"{user.name} использует " \
                f"{self.name} и наносит " \
-               f"{damage} урона сопернику"
+               f"{damage} урона сопернику " \
+               f"{target.name}"
 
     def _is_stamina_enough(self, user: TUnit) -> bool:
         return user.stamina_points >= self._stamina

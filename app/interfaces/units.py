@@ -20,7 +20,7 @@ class EnemyUnit(base.Unit):
         BattleLog()(message)
 
     def hit(self, target: TUnit):
-        if not randint(0, 10) and not self._is_skill_used:
+        if not randint(0, 10):
             self.use_skill(target)
             return
 
