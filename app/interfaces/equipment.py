@@ -1,6 +1,7 @@
 """
     Class Equipment implementation
 """
+
 from typing import TYPE_CHECKING
 
 from app.interfaces import base

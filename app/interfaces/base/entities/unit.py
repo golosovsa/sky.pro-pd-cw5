@@ -14,6 +14,7 @@ class Unit(abstract.Unit):
 
     _STAMINA_PER_TURN: float = 1.0
     _EPSILON = 0.1
+    _FRACTIONAL = 2
 
     def __init__(self, name: str, unit_class: UnitClass):
         self._name: str = name
@@ -63,7 +64,7 @@ class Unit(abstract.Unit):
             self._log(f"{self.name} Не имеет достаточного количества выносливости для защиты")
             return 0
 
-        defence_points = round(self._armor.defence * self._unit_class.armor, 1)
+        defence_points = round(self._armor.defence * self._unit_class.armor, self._FRACTIONAL)
         self._log(f"{self.name} защищается {defence_points} пунктами защиты")
         return defence_points
 
@@ -78,35 +79,51 @@ class Unit(abstract.Unit):
             self._log(f"{self.name} Не имеет достаточного количества выносливости для атаки")
             return 0
 
-        damage_points = round(self._weapon.damage * self._unit_class.attack, 1)
+        damage_points = round(self._weapon.damage * self._unit_class.attack, self._FRACTIONAL)
         self._log(f"{self.name} атакует, его атака равна {damage_points} пунктов")
         return damage_points
 
     def _count_damage(self, target: TUnit) -> float:
-        damage = round(self.damage - target.defence, 1)
+        damage = round(self.damage - target.defence, self._FRACTIONAL)
         damage = damage if damage > self._EPSILON else 0
         self._log(f"Урон с учетом защиты составит {damage} единиц")
         return damage
 
     def _regenerate_stamina(self):
-        stamina_regeneration = self._STAMINA_PER_TURN * self._unit_class.stamina
+        stamina_regeneration = round(self._STAMINA_PER_TURN * self._unit_class.stamina, self._FRACTIONAL)
         self._stamina += stamina_regeneration
         self._log(f"{self.name} восстанавливает {stamina_regeneration} выносливости до {self._stamina} единиц")
 
     def get_damage(self, damage: float):
         self._regenerate_stamina()
+        if self._armor:
+            self._stamina -= self._armor.stamina_per_turn
+            self._log(f"{self.name} тратит "
+                      f"{self._armor.stamina_per_turn} очков выносливости на защиту, его выносливость становится "
+                      f"{self._stamina} очков")
         if damage < self._EPSILON:
             self._log(f"{self.name} не получает урона")
             return 0
         self._hp -= damage
-        if self._armor:
-            self._log(f"{self.name} тратит {damage} очков выносливости на защиту")
-            self._stamina -= self._armor.stamina_per_turn
-        self._log(f"{self.name} получает {damage} очков повреждения, его здоровье уменьшается до {self._hp} очков")
+        self._log(f"{self.name} получает "
+                  f"{damage} очков повреждения, его здоровье уменьшается до "
+                  f"{self._hp} очков")
+        return damage
 
     def hit(self, target: TUnit):
-        self._regenerate_stamina()
         damage = self._count_damage(target)
+        if self._weapon is None:
+            self.skip_turn(target)
+            return
+        if damage < self._EPSILON and self._stamina < self._weapon.stamina_per_hit:
+            self.skip_turn(target)
+            return
+
+        self._regenerate_stamina()
+        self._stamina -= self._weapon.stamina_per_hit
+        self._log(f"{self.name} тратит "
+                  f"{self._weapon.stamina_per_hit} очков выносливости на атаку, "
+                  f"его выносливость становится {self._stamina} очков")
         target.get_damage(damage)
 
     def use_skill(self, target: TUnit):
@@ -119,9 +136,11 @@ class Unit(abstract.Unit):
             return
         self._regenerate_stamina()
         user: Union[TUnit, Unit] = self
+        self._log(f"{self.name} использует навык")
         message = self._unit_class.skill.use(user, target)
         self._log(message)
 
     def skip_turn(self, target: TUnit):
         self._regenerate_stamina()
         self._log(f"{self.name} пропускает ход")
+        self._log(f"{target.name} не получает урона и не восстанавливает выносливость")

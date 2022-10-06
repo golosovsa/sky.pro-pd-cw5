@@ -1,5 +1,5 @@
 """
-    Test Equipment base implementation
+    Test base Equipment
 """
 import pytest
 from dataclasses import asdict

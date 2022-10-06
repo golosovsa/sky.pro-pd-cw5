@@ -8,6 +8,7 @@ from .entities.skill import Skill
 from .entities.unit import Unit
 from .entities.unit_class import UnitClass
 from .entities.weapon import Weapon
+from .entities.battle_log import BattleLog
 
 __all__ = [
     "SingletonMeta",
@@ -19,4 +20,5 @@ __all__ = [
     "Unit",
     "UnitClass",
     "Weapon",
+    "BattleLog"
 ]

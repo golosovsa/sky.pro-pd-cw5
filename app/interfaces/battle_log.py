@@ -2,19 +2,18 @@
     Class BattleLog implementation
 """
 
-from typing import List
+from typing import TYPE_CHECKING
 
 from app.interfaces import base
 
+if TYPE_CHECKING:
+    ABCSingletonBattleLogMeta = type
+else:
+    class ABCSingletonBattleLogMeta(base.SingletonMeta, type(base.BattleLog)):
+        pass
 
-class BattleLog(metaclass=base.SingletonMeta):
+
+class BattleLog(base.BattleLog, metaclass=ABCSingletonBattleLogMeta):
 
     def __init__(self):
-        self._log: List[str] = []
-
-    def __call__(self, message: str):
-        self._log.append(message)
-
-    def flush(self) -> List[str]:
-        log, self._log = self._log, []
-        return log
+        super(BattleLog, self).__init__()

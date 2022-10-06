@@ -1,7 +1,7 @@
 import json
 
 import pytest
-
+from app.interfaces import base
 
 @pytest.fixture(scope="session")
 def equipment_data():
@@ -57,3 +57,8 @@ def equipment_file(tmp_path_factory, equipment_data):
     tmp_file = tmp_path_factory.mktemp("data") / "equipment.json"
     tmp_file.write_text(json.dumps(equipment_data), encoding="utf-8")
     return str(tmp_file)
+
+
+@pytest.fixture(scope="session")
+def equipment_object(equipment_file):
+    return base.Equipment(equipment_file)

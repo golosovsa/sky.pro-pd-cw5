@@ -20,7 +20,6 @@ class TestSingleton:
         single_2 = SingletonClass()
         another_single_1 = AnotherSingletonClass()
         another_single_2 = AnotherSingletonClass()
-        print(SingletonMeta._instances)
         assert single_1 is not None
         assert single_1 is single_2
         assert id(single_1) == id(single_2)

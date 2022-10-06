@@ -12,12 +12,15 @@ class Arena(abstract.Arena):
     def __init__(self):
         self._player: Unit | None = None
         self._enemy: Unit | None = None
-        self._is_game_running: bool = False
         self._battle_result: str = ""
 
     @property
     def is_game_end(self):
         return self._battle_result != ""
+
+    @property
+    def is_game_start(self):
+        return self._player and self._enemy
 
     def start_game(self, player: Unit, enemy: Unit):
         self._player = player

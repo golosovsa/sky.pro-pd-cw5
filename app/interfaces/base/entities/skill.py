@@ -32,17 +32,18 @@ class Skill(abstract.Skill):
 
     @property
     def stamina(self) -> float:
-        return self.stamina
+        return self._stamina
 
     @property
     def damage(self) -> float:
-        return self.damage
+        return self._damage
 
     def skill_effect(self, user: TUnit, target: TUnit) -> str:
         user.stamina_points -= self._stamina
-        damage = target.get_damage(self._damage)
-        return f"{user.name} использует " \
-               f"{self.name} и наносит " \
+        defence = target.defence
+        damage = target.get_damage(self._damage - defence)
+        return f"{user.name} успешно использовал " \
+               f"{self.name} и нанес " \
                f"{damage} урона сопернику " \
                f"{target.name}"
 
