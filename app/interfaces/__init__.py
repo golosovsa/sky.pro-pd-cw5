@@ -1,19 +1,18 @@
+from .arena_singleton import Arena
+from .battle_log_singleton import BattleLog
+from .equipment_singleton import Equipment
 from .skills import FuryPunch, HardShot
 from .unit_classes import WarriorClass, ThiefClass
 from .units import PlayerUnit, EnemyUnit
-from .equipment import Equipment
-from .battle_log import BattleLog
-from .arena import Arena
 
 __all__ = [
+    "Arena",
+    "BattleLog",
+    "Equipment",
     "FuryPunch",
     "HardShot",
-    "unit_classes",
     "WarriorClass",
     "ThiefClass",
     "PlayerUnit",
     "EnemyUnit",
-    "Equipment",
-    "BattleLog",
-    "Arena",
 ]

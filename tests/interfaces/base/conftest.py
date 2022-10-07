@@ -1,10 +1,12 @@
 from pytest import fixture
-from app.interfaces import base
+from app.interfaces.skill import BaseSkill
+from app.interfaces.unit import BaseUnit
+from app.interfaces.unit_class import BaseUnitClass
 
 
 @fixture
 def derived_skill():
-    class DerivedSkill(base.Skill):
+    class DerivedSkill(BaseSkill):
         _name = "Derived"
         _stamina = 10.0
         _damage = 10.0
@@ -14,7 +16,7 @@ def derived_skill():
 
 @fixture
 def derived_unit():
-    class DerivedUnit(base.Unit):
+    class DerivedUnit(BaseUnit):
 
         def _log(self, message: str):
             pass
@@ -31,7 +33,7 @@ def derived_skill_instance(derived_skill):
 def derived_unit_instance_1(derived_unit, derived_skill_instance):
     return derived_unit(
         name="Derived_Unit_1",
-        unit_class=base.UnitClass(
+        unit_class=BaseUnitClass(
             name="Derived_Unit_Class_1",
             max_health=100.0,
             max_stamina=100.0,
@@ -47,7 +49,7 @@ def derived_unit_instance_1(derived_unit, derived_skill_instance):
 def derived_unit_instance_2(derived_unit, derived_skill_instance):
     return derived_unit(
         name="Derived_Unit_2",
-        unit_class=base.UnitClass(
+        unit_class=BaseUnitClass(
             name="Derived_Unit_Class_2",
             max_health=100.0,
             max_stamina=100.0,
@@ -63,7 +65,7 @@ def derived_unit_instance_2(derived_unit, derived_skill_instance):
 def derived_unit_instance_low_stamina(derived_unit, derived_skill_instance):
     return derived_unit(
         name="Derived_Unit_Low_Stamina",
-        unit_class=base.UnitClass(
+        unit_class=BaseUnitClass(
             name="Derived_Unit_Class_Low_Stamina",
             max_health=100.0,
             max_stamina=0.0,

@@ -2,8 +2,9 @@
     Module class container for base class UnitClass
 """
 
-from .base import UnitClass
-from app.interfaces import skills
+from .unit_class import BaseUnitClass as UnitClass
+from .skills import HardShot, FuryPunch
+
 
 WarriorClass = UnitClass(
     name="Воин",
@@ -12,8 +13,9 @@ WarriorClass = UnitClass(
     attack=0.8,
     stamina=0.9,
     armor=1.2,
-    skill=skills.HardShot()
+    skill=HardShot()
 )
+
 
 ThiefClass = UnitClass(
     name="Вор",
@@ -22,5 +24,5 @@ ThiefClass = UnitClass(
     attack=1.5,
     stamina=1.2,
     armor=1.0,
-    skill=skills.FuryPunch()
+    skill=FuryPunch()
 )

@@ -2,7 +2,7 @@
     Class Skills implementation
 """
 
-from .base import Skill
+from .skill import BaseSkill as Skill
 
 
 class FuryPunch(Skill):

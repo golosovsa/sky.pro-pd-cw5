@@ -1,7 +1,8 @@
 import json
 
 import pytest
-from app.interfaces import base
+from app.interfaces.equipment import BaseEquipment
+
 
 @pytest.fixture(scope="session")
 def equipment_data():
@@ -61,4 +62,4 @@ def equipment_file(tmp_path_factory, equipment_data):
 
 @pytest.fixture(scope="session")
 def equipment_object(equipment_file):
-    return base.Equipment(equipment_file)
+    return BaseEquipment(equipment_file)

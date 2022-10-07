@@ -3,23 +3,22 @@
 """
 from random import randint
 
-from app.interfaces import base
-from .abstract.entities.unit import TUnit
-from .battle_log import BattleLog
+from .unit import BaseUnit
+from .battle_log_singleton import BattleLog
 
 
-class PlayerUnit(base.Unit):
-
-    def _log(self, message: str):
-        BattleLog()(message)
-
-
-class EnemyUnit(base.Unit):
+class PlayerUnit(BaseUnit):
 
     def _log(self, message: str):
         BattleLog()(message)
 
-    def hit(self, target: TUnit):
+
+class EnemyUnit(BaseUnit):
+
+    def _log(self, message: str):
+        BattleLog()(message)
+
+    def hit(self, target: BaseUnit):
         if not randint(0, 10):
             self.use_skill(target)
             return
