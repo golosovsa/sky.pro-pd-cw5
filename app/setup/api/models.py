@@ -61,3 +61,10 @@ unit_class_names_schema: Model = api.model(
         "unit_class_names": fields.List(fields.String, description="Unit class names")
     }
 )
+
+battle_log_schema: Model = api.model(
+    name="Battle log",
+    model={
+        "log": fields.List(fields.String, description="Battle log items")
+    }
+)

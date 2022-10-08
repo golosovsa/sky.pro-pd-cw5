@@ -17,3 +17,4 @@ units = {
 }
 
 Arena = interfaces.Arena
+BattleLog = interfaces.BattleLog

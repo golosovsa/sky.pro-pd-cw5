@@ -33,7 +33,7 @@ class BaseService(Generic[T]):
                 return False
         return True
 
-    def get_item(self, pk: int) -> Base:
+    def get_item(self, pk: int) -> Optional[Base]:
         if model := self._dao.get_by_id(pk):
             return model
         raise ItemNotFound("Item not found.")

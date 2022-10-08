@@ -11,5 +11,5 @@ class Base:
 
 
 @dataclass
-class BaseWithID:
+class BaseWithID(Base):
     id: int
