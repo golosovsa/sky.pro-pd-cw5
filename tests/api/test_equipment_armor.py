@@ -16,7 +16,7 @@ def armor_names(client):
 
 class TestArmorRoute:
 
-    def test_armor_request(self, client, armor_names, equipment_data):
+    def test_get_by_name_request(self, client, armor_names, equipment_data):
         for name in armor_names:
             response: Response = client.get(f"/equipment/armor/{name}")
             assert response.status_code == 200

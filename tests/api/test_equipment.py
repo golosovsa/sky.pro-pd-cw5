@@ -8,7 +8,7 @@ from flask import Response
 
 class TestEquipmentRoute:
 
-    def test_equipment_request(self, client, equipment_data):
+    def test_get_all_request(self, client, equipment_data):
         response: Response = client.get("/equipment/")
 
         assert response.status_code == 200

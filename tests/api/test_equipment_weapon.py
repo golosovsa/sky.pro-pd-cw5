@@ -16,7 +16,7 @@ def weapon_names(client):
 
 class TestWeaponRoute:
 
-    def test_weapon_request(self, client, weapon_names, equipment_data):
+    def test_get_by_name_request(self, client, weapon_names, equipment_data):
         for name in weapon_names:
             response: Response = client.get(f"/equipment/weapon/{name}")
             assert response.status_code == 200

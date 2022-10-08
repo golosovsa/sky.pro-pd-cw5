@@ -5,6 +5,7 @@
 from flask_restx import fields, Model  # type: ignore
 
 from app.setup.api import api
+from .marshalling import SkillField
 
 status_schema: Model = api.model(
     name="Status",
@@ -38,5 +39,25 @@ equipment_names_schema: Model = api.model(
     model={
         "weapon": fields.List(fields.String, description="List of weapon names"),
         "armor": fields.List(fields.String, description="List of armor names"),
+    }
+)
+
+unit_class_schema: Model = api.model(
+    name="Unit class",
+    model={
+        "name": fields.String(description="Class name"),
+        "max_health": fields.Float(description="Health points"),
+        "max_stamina": fields.Float(description="Stamina points"),
+        "attack": fields.Float(description="Attack modification"),
+        "stamina": fields.Float(description="Stamina modification"),
+        "armor": fields.Float(description="Armor modification"),
+        "skill": SkillField(description="Specific skill"),
+    }
+)
+
+unit_class_names_schema: Model = api.model(
+    name="Unit class names",
+    model={
+        "unit_class_names": fields.List(fields.String, description="Unit class names")
     }
 )
