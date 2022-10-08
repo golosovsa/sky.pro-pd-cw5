@@ -7,31 +7,30 @@ from typing import Optional, List, Type
 
 from .base import BaseDAO
 from .models import Weapon
-from app.container import equipment
-from app.interfaces import Equipment
+from app.game_container import Equipment
 
 
 class WeaponDAO(BaseDAO[Weapon]):
     __model__: Type[Weapon] = Weapon
-    _data: Equipment = equipment
+    _data: Type[Equipment] = Equipment
 
     def get_by_id(self, pk: int) -> Optional[Weapon]:
-        pass
+        return None
 
-    def get_all(self) -> List[Weapon]:
-        pass
+    def get_all(self, page: Optional[int] = None) -> List[Weapon]:
+        return []
 
     def create(self, model: Weapon):
-        pass
+        return None
 
     def update(self, model: Weapon):
-        pass
+        return None
 
     def delete(self, model: Weapon):
-        pass
+        return None
 
     def get_by_name(self, name: str) -> Optional[Weapon]:
-        weapon_data = self._data.get_weapon(name)
+        weapon_data = self._data("").get_weapon(name)
         if weapon_data is None:
             return None
         return Weapon(
@@ -43,4 +42,4 @@ class WeaponDAO(BaseDAO[Weapon]):
         )
 
     def get_names(self) -> List[str]:
-        return self._data.get_weapon_names()
+        return self._data("").get_weapon_names()

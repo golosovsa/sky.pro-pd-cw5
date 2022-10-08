@@ -16,7 +16,7 @@ class StatusDAO(BaseDAO[Status]):
     def get_by_id(self, pk: int) -> Optional[Status]:
         return self._data
 
-    def get_all(self) -> List[Status]:
+    def get_all(self, page: Optional[int] = None) -> List[Status]:
         return [self._data, ]
 
     def create(self, model: Status):

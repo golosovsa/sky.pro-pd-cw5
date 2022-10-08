@@ -5,16 +5,21 @@
 import os
 from typing import Type
 
+from .constants import DATA_DIR
+
 
 class BaseConfig:
     JSON_AS_ASCII = False
     RESTX_JSON = {
         'ensure_ascii': False,
     }
+    EQUIPMENT_DATA = str(DATA_DIR / "equipment.json")
 
 
 class TestingConfig(BaseConfig):
     DEBUG = True
+    TESTING = True
+    EQUIPMENT_DATA = "temp file"
 
 
 class DevelopmentConfig(BaseConfig):
@@ -26,14 +31,14 @@ class ProductionConfig(BaseConfig):
 
 
 class ConfigFactory:
-    app_env = os.getenv("APP_ENV")
 
     @classmethod
     def get_config(cls) -> Type[BaseConfig]:
-        if cls.app_env == 'development':
+        app_env = os.getenv("APP_ENV")
+        if app_env == 'development':
             return DevelopmentConfig
-        elif cls.app_env == 'production':
+        elif app_env == 'production':
             return ProductionConfig
-        elif cls.app_env == 'testing':
+        elif app_env == 'testing':
             return TestingConfig
-        raise NotImplementedError()
+        return DevelopmentConfig

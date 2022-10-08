@@ -14,7 +14,7 @@ class BaseDAO(Generic[T]):
     def get_by_id(self, pk: int) -> Optional[T]:
         raise NotImplementedError()
 
-    def get_all(self) -> List[T]:
+    def get_all(self, page: Optional[int] = None) -> List[T]:
         raise NotImplementedError()
 
     def create(self, model: T):

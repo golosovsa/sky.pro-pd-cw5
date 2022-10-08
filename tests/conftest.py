@@ -1,7 +1,13 @@
 import json
 
 import pytest
+import os
 from app.interfaces.equipment import BaseEquipment
+from app.server import create_app
+from app.config import TestingConfig
+
+
+os.environ["APP_ENV"] = "testing"
 
 
 @pytest.fixture(scope="session")
@@ -63,3 +69,15 @@ def equipment_file(tmp_path_factory, equipment_data):
 @pytest.fixture(scope="session")
 def equipment_object(equipment_file):
     return BaseEquipment(equipment_file)
+
+
+@pytest.fixture(scope="session")
+def app(equipment_file):
+    TestingConfig.EQUIPMENT_DATA = equipment_file
+    app = create_app(TestingConfig)
+    return app
+
+
+@pytest.fixture(scope="session")
+def client(app):
+    return app.test_client()

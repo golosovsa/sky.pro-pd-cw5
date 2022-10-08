@@ -1,11 +1,10 @@
 """
-    Service container implementation
+    Game container implementation
 """
 
-from app.constants import DATA_DIR
 from app import interfaces
 
-equipment = interfaces.Equipment(str(DATA_DIR / "equipment.json"))
+Equipment = interfaces.Equipment
 
 unit_classes = {
     interfaces.WarriorClass.name: interfaces.WarriorClass,
