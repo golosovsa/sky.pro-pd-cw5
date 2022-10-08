@@ -28,7 +28,6 @@ class TestUnitClassRoute:
             assert response.headers["Content-Type"] == "application/json"
             assert response.is_json
             data = response.json
-            print(data)
 
             assert "name" in data
             assert "max_health" in data

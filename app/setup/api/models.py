@@ -68,3 +68,15 @@ battle_log_schema: Model = api.model(
         "log": fields.List(fields.String, description="Battle log items")
     }
 )
+
+unit_schema: Model = api.model(
+    name="Unit",
+    model={
+        "name": fields.String(description="Unit name"),
+        "health_points": fields.Float(description="Unit health points"),
+        "stamina_points": fields.Float(description="Unit stamina points"),
+        "unit_class": fields.String(description="Unit class name"),
+        "weapon": fields.String(description="Unit weapon name"),
+        "armor": fields.String(description="Unit armor name"),
+    }
+)

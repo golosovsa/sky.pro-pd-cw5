@@ -21,4 +21,4 @@ class WeaponView(Resource):
         model = weapon_service.get_by_name(name)
         if model is None:
             raise NotFound()
-        return weapon_service.get_by_name(name)
+        return model

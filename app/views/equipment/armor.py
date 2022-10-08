@@ -21,4 +21,4 @@ class ArmorView(Resource):
         model = armor_service.get_by_name(name)
         if model is None:
             raise NotFound()
-        return armor_service.get_by_name(name)
+        return model

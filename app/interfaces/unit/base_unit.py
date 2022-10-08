@@ -2,6 +2,8 @@
     Base Unit class implementation
 """
 
+from typing import Optional
+
 from .abstract_unit import AbstractUnit
 from ..weapon import BaseWeapon as Weapon
 from ..armor import BaseArmor as Armor
@@ -30,6 +32,22 @@ class BaseUnit(AbstractUnit):
     @property
     def health_points(self):
         return self._hp
+
+    @property
+    def unit_class(self) -> str:
+        return self._unit_class.name
+
+    @property
+    def weapon(self) -> Optional[str]:
+        if self._weapon:
+            return self._weapon.name
+        return None
+
+    @property
+    def armor(self) -> Optional[str]:
+        if self._armor:
+            return self._armor.name
+        return None
 
     @property
     def is_alive(self):

@@ -15,6 +15,10 @@ class BaseArena(AbstractArena):
         self._battle_result: str = ""
 
     @property
+    def battle_result(self) -> str:
+        return self._battle_result
+
+    @property
     def is_game_end(self):
         return self._battle_result != ""
 
