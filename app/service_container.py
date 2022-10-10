@@ -8,7 +8,8 @@ from app.dao import \
     UnitClassDAO, \
     BattleLogDAO, \
     PlayerDAO, \
-    EnemyDAO
+    EnemyDAO, \
+    StatusDAO
 
 from app.services import \
     WeaponService, \
@@ -16,7 +17,8 @@ from app.services import \
     UnitClassService, \
     BattleLogService, \
     PlayerService, \
-    EnemyService
+    EnemyService, \
+    StatusService
 
 
 # DAO
@@ -26,6 +28,7 @@ unit_class_dao = UnitClassDAO()
 battle_log_dao = BattleLogDAO()
 player_dao = PlayerDAO()
 enemy_dao = EnemyDAO()
+status_dao = StatusDAO()
 
 
 # Services
@@ -35,3 +38,4 @@ unit_class_service = UnitClassService(unit_class_dao)
 battle_log_service = BattleLogService(battle_log_dao)
 player_service = PlayerService(player_dao)
 enemy_service = EnemyService(enemy_dao)
+status_service = StatusService(status_dao)

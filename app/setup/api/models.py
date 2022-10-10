@@ -12,6 +12,7 @@ status_schema: Model = api.model(
     model={
         "server_status": fields.String(description="Server status, always 'online' if the server is available"),
         "current_screen": fields.String(description="Screen Name for Single Page Server Application"),
+        "fight_result": fields.String(description="Previous fight result"),
     }
 )
 
@@ -51,7 +52,11 @@ unit_class_schema: Model = api.model(
         "attack": fields.Float(description="Attack modification"),
         "stamina": fields.Float(description="Stamina modification"),
         "armor": fields.Float(description="Armor modification"),
-        "skill": SkillField(description="Specific skill"),
+        "skill": SkillField(model={
+            "name": fields.String(description="Skill name"),
+            "stamina": fields.Float(description="Stamina consumption"),
+            "damage": fields.Float(description="Skill damage"),
+        }, description="Specific skill"),
     }
 )
 

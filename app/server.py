@@ -12,7 +12,8 @@ from app.views import \
     unit_class_ns, \
     battle_log_ns, \
     player_ns, \
-    enemy_ns
+    enemy_ns, \
+    status_ns
 from app.game_container import Equipment
 
 
@@ -31,6 +32,7 @@ def create_app(config_obj):
     api.add_namespace(battle_log_ns)
     api.add_namespace(player_ns)
     api.add_namespace(enemy_ns)
+    api.add_namespace(status_ns)
     app.register_error_handler(HTTPException, base_service_error_handler)
     Equipment(app.config["EQUIPMENT_DATA"])
     return app

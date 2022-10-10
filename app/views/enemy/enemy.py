@@ -7,6 +7,7 @@ from werkzeug.exceptions import BadRequest
 
 from app.service_container import enemy_service
 from app.setup.api.models import unit_schema
+from app.setup.api.parsers import create_unit_args_parser
 
 api = Namespace("enemy", description="Enemy handle")
 
@@ -18,5 +19,12 @@ class EnemyView(Resource):
     def get(self):
         enemy = enemy_service.get_item(0)
         if enemy is None:
-            raise BadRequest
+            raise BadRequest()
         return enemy
+
+    @api.response(400, "Bad request")
+    @api.expect(create_unit_args_parser)
+    def post(self):
+        if not enemy_service.create_enemy(**create_unit_args_parser.parse_args()):
+            raise BadRequest()
+        return "OK", 201, {"Location": "/enemy/"}

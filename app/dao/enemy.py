@@ -41,3 +41,10 @@ class EnemyDAO(BaseDAO[Unit]):
 
     def delete(self, model: Unit):
         return None
+
+    def create_enemy(self, name, unit_class, weapon, armor) -> bool:
+        try:
+            self._data.select_enemy(name, unit_class, weapon, armor)
+            return True
+        except RuntimeError:
+            return False

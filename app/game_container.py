@@ -22,7 +22,7 @@ class Game:
     _player: Optional[interfaces.PlayerUnit] = None
     _enemy:  Optional[interfaces.EnemyUnit] = None
 
-    _fight_result: str = "Еще не было ни одной игры"
+    _fight_result: str = "Вы не играли еще ни одной игры"
 
     _screens = [
         "start_and_results",
@@ -42,6 +42,10 @@ class Game:
     @property
     def enemy(self):
         return self._enemy
+
+    @property
+    def fight_result(self):
+        return self._fight_result
 
     @property
     def screen(self):
@@ -64,7 +68,7 @@ class Game:
 
     def start_game(self):
         if self._current_screen_index != 0:
-            return
+            raise RuntimeError("Wrong screen")
 
         self._equipment = Equipment("")
         self._arena = Arena()
@@ -73,33 +77,53 @@ class Game:
 
     def select_player(self, name: str, class_name: str, armor_name: str, weapon_name: str):
         if self._current_screen_index != 1:
-            return
+            raise RuntimeError("Wrong screen")
 
-        self._player = interfaces.PlayerUnit(
+        if class_name not in unit_classes:
+            raise RuntimeError("Wrong class_name")
+
+        player: interfaces.PlayerUnit = interfaces.PlayerUnit(
             name=name,
             unit_class=unit_classes[class_name]
         )
 
-        if self._player is None or self._equipment is None:
-            return
+        if player is None or self._equipment is None:
+            raise RuntimeError("player not created")
 
-        self._player.equip_armor(self._equipment.get_armor(armor_name))
-        self._player.equip_weapon(self._equipment.get_weapon(weapon_name))
+        armor = self._equipment.get_armor(armor_name)
+        weapon = self._equipment.get_weapon(weapon_name)
+
+        if armor is None or weapon is None:
+            raise RuntimeError("wrong armor or weapon")
+
+        player.equip_armor(armor)
+        player.equip_weapon(weapon)
+        self._player = player
 
     def select_enemy(self, name: str, class_name: str, armor_name: str, weapon_name: str):
         if self._current_screen_index != 2:
-            return
+            raise RuntimeError("Wrong screen")
 
-        self._enemy = interfaces.EnemyUnit(
+        if class_name not in unit_classes:
+            raise RuntimeError("Wrong class_name")
+
+        enemy: interfaces.EnemyUnit = interfaces.EnemyUnit(
             name=name,
             unit_class=unit_classes[class_name]
         )
 
-        if self._enemy is None or self._equipment is None:
-            return
+        if enemy is None or self._equipment is None:
+            raise RuntimeError("player not created")
 
-        self._enemy.equip_armor(self._equipment.get_armor(armor_name=armor_name))
-        self._enemy.equip_weapon(self._equipment.get_weapon(weapon_name=weapon_name))
+        armor = self._equipment.get_armor(armor_name)
+        weapon = self._equipment.get_weapon(weapon_name)
+
+        if armor is None or weapon is None:
+            raise RuntimeError("wrong armor or weapon")
+
+        enemy.equip_armor(armor)
+        enemy.equip_weapon(weapon)
+        self._enemy = enemy
 
         self._arena.start_game(self._player, self._enemy)
 
@@ -109,7 +133,7 @@ class Game:
 
     def fight(self, action: str):
         if self._current_screen_index != 3 or self._arena is None:
-            return
+            raise RuntimeError("Wrong screen")
 
         if action == "hit":
             self._arena.make_a_player_hit()
