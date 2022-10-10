@@ -64,7 +64,9 @@ class Game:
             return
         if not self._arena.is_game_end:
             self._current_screen_index = 3
-        self._current_screen_index = 2
+            return
+        self._arena = None
+        self._current_screen_index = 0
 
     def start_game(self):
         if self._current_screen_index != 0:
@@ -76,6 +78,7 @@ class Game:
         self._enemy = None
 
     def select_player(self, name: str, class_name: str, armor_name: str, weapon_name: str):
+
         if self._current_screen_index != 1:
             raise RuntimeError("Wrong screen")
 
@@ -101,6 +104,7 @@ class Game:
         self._player = player
 
     def select_enemy(self, name: str, class_name: str, armor_name: str, weapon_name: str):
+
         if self._current_screen_index != 2:
             raise RuntimeError("Wrong screen")
 
@@ -128,7 +132,7 @@ class Game:
         self._arena.start_game(self._player, self._enemy)
 
     def _end_game(self):
-        self._fight_result = self._arena.battle_result
+        self._fight_result = self._arena.battle_result if self._arena else ""
         self._arena = None
 
     def fight(self, action: str):
@@ -142,7 +146,7 @@ class Game:
         elif action == "skip":
             self._arena.skip_turn()
         else:
-            return
+            raise RuntimeError("Wrong action")
 
         # match action:
         #     case "hit":

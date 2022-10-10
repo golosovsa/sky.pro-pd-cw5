@@ -10,7 +10,7 @@ from app.config import TestingConfig
 os.environ["APP_ENV"] = "testing"
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def equipment_data():
     return {
         "weapons": [
@@ -59,25 +59,25 @@ def equipment_data():
     }
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def equipment_file(tmp_path_factory, equipment_data):
     tmp_file = tmp_path_factory.mktemp("data") / "equipment.json"
     tmp_file.write_text(json.dumps(equipment_data), encoding="utf-8")
     return str(tmp_file)
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def equipment_object(equipment_file):
     return BaseEquipment(equipment_file)
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def app(equipment_file):
     TestingConfig.EQUIPMENT_DATA = equipment_file
     app = create_app(TestingConfig)
     return app
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def client(app):
     return app.test_client()

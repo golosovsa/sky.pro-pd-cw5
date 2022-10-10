@@ -11,8 +11,13 @@ from app.game_container import game, Game
 class TestPlayerRoute:
 
     def test_get_by_id_request_before_select_player(self, client):
+        assert game.screen == "start_and_results"
         response: Response = client.get(f"/player/")
         assert response.status_code == 404
+
+        game._arena = None
+        game._player = None
+        game._enemy = None
 
     def test_get_by_id_request_after_game_start(self, client):
         assert game.screen == "start_and_results"
@@ -35,5 +40,8 @@ class TestPlayerRoute:
         assert data["unit_class"] == "Воин"
         assert data["armor"] == "панцирь"
         assert data["weapon"] == "топорик"
-        game._player = None
+
         game._arena = None
+        game._player = None
+        game._enemy = None
+

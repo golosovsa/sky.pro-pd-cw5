@@ -5,6 +5,8 @@ from .unit_class import UnitClassDAO
 from .battle_log import BattleLogDAO
 from .player import PlayerDAO
 from .enemy import EnemyDAO
+from .game import GameDAO
+from .fight import FightDAO
 
 __all__ = [
     "ArmorDAO",
@@ -14,4 +16,6 @@ __all__ = [
     "BattleLogDAO",
     "PlayerDAO",
     "EnemyDAO",
+    "GameDAO",
+    "FightDAO",
 ]

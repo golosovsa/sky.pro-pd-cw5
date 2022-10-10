@@ -44,7 +44,7 @@ class PlayerDAO(BaseDAO[Unit]):
 
     def create_player(self, name, unit_class, weapon, armor) -> bool:
         try:
-            self._data.select_player(name, unit_class, weapon, armor)
+            self._data.select_player(name=name, class_name=unit_class, weapon_name=weapon, armor_name=armor)
             return True
         except RuntimeError:
             return False

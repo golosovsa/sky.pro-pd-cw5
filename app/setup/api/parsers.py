@@ -37,3 +37,12 @@ create_unit_args_parser.add_argument(
     required=True,
     help="Armor name",
 )
+
+fight_args_parser: RequestParser = RequestParser()
+fight_args_parser.add_argument(
+    name="action",
+    type=str,
+    location="form",
+    required=True,
+    help="Fight action",
+)

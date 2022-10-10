@@ -3,6 +3,7 @@
 """
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from app.setup.api import api
 from app.views import \
@@ -13,7 +14,9 @@ from app.views import \
     battle_log_ns, \
     player_ns, \
     enemy_ns, \
-    status_ns
+    status_ns, \
+    start_game_ns,\
+    fight_ns
 from app.game_container import Equipment
 
 
@@ -24,6 +27,7 @@ def base_service_error_handler(exception: HTTPException):
 def create_app(config_obj):
     app = Flask(__name__)
     app.config.from_object(config_obj)
+    CORS(app=app)
     api.init_app(app)
     api.add_namespace(equipment_ns)
     api.add_namespace(weapon_ns)
@@ -33,6 +37,8 @@ def create_app(config_obj):
     api.add_namespace(player_ns)
     api.add_namespace(enemy_ns)
     api.add_namespace(status_ns)
+    api.add_namespace(start_game_ns)
+    api.add_namespace(fight_ns)
     app.register_error_handler(HTTPException, base_service_error_handler)
     Equipment(app.config["EQUIPMENT_DATA"])
     return app

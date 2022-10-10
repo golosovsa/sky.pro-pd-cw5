@@ -44,7 +44,7 @@ class EnemyDAO(BaseDAO[Unit]):
 
     def create_enemy(self, name, unit_class, weapon, armor) -> bool:
         try:
-            self._data.select_enemy(name, unit_class, weapon, armor)
+            self._data.select_enemy(name=name, class_name=unit_class, weapon_name=weapon, armor_name=armor)
             return True
         except RuntimeError:
             return False
