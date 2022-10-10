@@ -3,7 +3,7 @@
 """
 
 from flask import Flask, jsonify
-from flask_cors import CORS
+from flask_cors import CORS  # type: ignore
 from werkzeug.exceptions import HTTPException
 from app.setup.api import api
 from app.views import \
