@@ -46,7 +46,7 @@ class BaseSkill(AbstractSkill):
         damage = target.get_damage(self._damage - defence)
         return f"{user.name} успешно использовал " \
                f"{self.name} и нанес " \
-               f"{damage} урона сопернику " \
+               f"{damage:.2f} урона сопернику " \
                f"{target.name}"
 
     def _is_stamina_enough(self, user: "BaseUnit") -> bool:

@@ -20,7 +20,13 @@ class BaseArena(AbstractArena):
 
     @property
     def is_game_end(self):
+        print(self._battle_result)
         return self._battle_result != ""
+
+    @is_game_end.setter
+    def is_game_end(self, flag: bool):
+        if not flag:
+            self._battle_result = ""
 
     @property
     def is_game_start(self):

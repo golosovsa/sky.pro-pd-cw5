@@ -11,12 +11,12 @@ from app.game_container import BattleLog
 
 class BattleLogDAO(BaseDAO[BattleLogModel]):
     __model__: Type[BattleLogModel] = BattleLogModel
-    _data: Type[BattleLog] = BattleLog
+    _data: BattleLog = BattleLog()
 
     def get_by_id(self, pk: int) -> Optional[BattleLogModel]:
         return BattleLogModel(
             id=0,
-            log=self._data().flush(),
+            log=self._data.flush(),
         )
 
     def get_all(self, page: Optional[int] = None) -> List[BattleLogModel]:

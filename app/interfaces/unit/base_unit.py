@@ -81,7 +81,7 @@ class BaseUnit(AbstractUnit):
             return 0
 
         defence_points = round(self._armor.defence * self._unit_class.armor, self._FRACTIONAL)
-        self._log(f"{self.name} защищается {defence_points} пунктами защиты")
+        self._log(f"{self.name} защищается {defence_points:.2f} пунктами защиты")
         return defence_points
 
     @property
@@ -96,34 +96,34 @@ class BaseUnit(AbstractUnit):
             return 0
 
         damage_points = round(self._weapon.damage * self._unit_class.attack, self._FRACTIONAL)
-        self._log(f"{self.name} атакует, его атака равна {damage_points} пунктов")
+        self._log(f"{self.name} атакует, его атака равна {damage_points:.2f} пунктов")
         return damage_points
 
     def _count_damage(self, target: "BaseUnit") -> float:
         damage = round(self.damage - target.defence, self._FRACTIONAL)
         damage = damage if damage > self._EPSILON else 0
-        self._log(f"Урон с учетом защиты составит {damage} единиц")
+        self._log(f"Урон с учетом защиты составит {damage:.2f} единиц")
         return damage
 
     def _regenerate_stamina(self):
         stamina_regeneration = round(self._STAMINA_PER_TURN * self._unit_class.stamina, self._FRACTIONAL)
         self._stamina += stamina_regeneration
-        self._log(f"{self.name} восстанавливает {stamina_regeneration} выносливости до {self._stamina} единиц")
+        self._log(f"{self.name} восстанавливает {stamina_regeneration:.2f} выносливости до {self._stamina:.2f} единиц")
 
     def get_damage(self, damage: float):
         self._regenerate_stamina()
         if self._armor:
             self._stamina -= self._armor.stamina_per_turn
             self._log(f"{self.name} тратит "
-                      f"{self._armor.stamina_per_turn} очков выносливости на защиту, его выносливость становится "
-                      f"{self._stamina} очков")
+                      f"{self._armor.stamina_per_turn:.2f} очков выносливости на защиту, его выносливость становится "
+                      f"{self._stamina:.2f} очков")
         if damage < self._EPSILON:
             self._log(f"{self.name} не получает урона")
             return 0
         self._hp -= damage
         self._log(f"{self.name} получает "
-                  f"{damage} очков повреждения, его здоровье уменьшается до "
-                  f"{self._hp} очков")
+                  f"{damage:.2f} очков повреждения, его здоровье уменьшается до "
+                  f"{self._hp:.2f} очков")
         return damage
 
     def hit(self, target: "BaseUnit"):
@@ -138,8 +138,8 @@ class BaseUnit(AbstractUnit):
         self._regenerate_stamina()
         self._stamina -= self._weapon.stamina_per_hit
         self._log(f"{self.name} тратит "
-                  f"{self._weapon.stamina_per_hit} очков выносливости на атаку, "
-                  f"его выносливость становится {self._stamina} очков")
+                  f"{self._weapon.stamina_per_hit:.2f} очков выносливости на атаку, "
+                  f"его выносливость становится {self._stamina:.2f} очков")
         target.get_damage(damage)
 
     def use_skill(self, target: "BaseUnit"):
@@ -150,6 +150,7 @@ class BaseUnit(AbstractUnit):
                       f"поэтому будет нанесен обычный удар")
             self.hit(target)
             return
+        self._is_skill_used = True
         self._regenerate_stamina()
         user: BaseUnit = self
         self._log(f"{self.name} использует навык")

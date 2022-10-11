@@ -131,9 +131,12 @@ class Game:
 
         self._arena.start_game(self._player, self._enemy)
 
-    def _end_game(self):
-        self._fight_result = self._arena.battle_result if self._arena else ""
+    def _end_game(self, result=None):
+        if result:
+            self._fight_result = result
+        self._arena.is_game_end = False
         self._arena = None
+        BattleLog().flush()
 
     def fight(self, action: str):
         if self._current_screen_index != 3 or self._arena is None:
@@ -145,6 +148,8 @@ class Game:
             self._arena.use_player_skill()
         elif action == "skip":
             self._arena.skip_turn()
+        elif action == "exit":
+            self._end_game("Последний раз игрок испугался и вышел из игры.")
         else:
             raise RuntimeError("Wrong action")
 
@@ -159,11 +164,14 @@ class Game:
         #         return
 
         if self._arena.is_game_end:
+            self._fight_result = self._arena.battle_result
             self._end_game()
+            return
 
         self._arena.make_next_turn()
 
         if self._arena.is_game_end:
+            self._fight_result = self._arena.battle_result
             self._end_game()
 
 
