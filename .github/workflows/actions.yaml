@@ -52,3 +52,49 @@ jobs:
         run: pip install -r requirements.flake8.txt
       - name: run flake8
         run: flake8 .
+
+  build_and_push_docker:
+    runs-on: ubuntu-latest
+    needs:
+      - check_pytest:
+      - check_mypy:
+      - check_flake8:
+    steps:
+      - name: clone code
+        uses: actions/checkout@v2
+      - name: docker build
+        run: docker build -t golosovsa/skypro-pd-cw5-backend:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
+      - name: docker login
+        run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      - name: docker push
+        run: docker push golosovsa/skypro-pd-cw5-backend:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push_docker
+    steps:
+      - name: clone code
+        uses: actions/checkout@v2
+      - name: render deploy config
+        run: |
+          mkdir deploy
+          cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
+      - name: copy files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          source: "deploy/docker-compose.yaml"
+          target: "deploy_ci"
+          strip_components: 1
+      - name: deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          script: |
+      
+              cd deploy_ci
+              echo '${{ secrets.DEPLOY_PASSWORD }}' | sudo -S docker-compose up -d
